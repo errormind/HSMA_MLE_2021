@@ -36,24 +36,34 @@ def draw():
                 line[2] = float(line[2][:-1])
             line[1] = float(line[1])
             line[0] = float(line[0])
-            #  append first k points to class
-            if i < k*2:
-                if line[2] == -1:
-                    clasA.append((line[0],line[1],line[2]))
-                elif line[2] == 1:
-                    clasB.append((line[0],line[1],line[2]))
-            else:
-                # append every other point
-                get_NN(line[0],line[1])
+            # append spiral points to class
+            if line[2] == -1:
+                clasA.append((line[0],line[1],line[2]))
+            elif line[2] == 1:
+                clasB.append((line[0],line[1],line[2]))
+        
+        # check points in plot for nearest neighbor
+        da = 150
+        for x in range(-da, da):
+            for y in range(-da, da):
+                xx = x/100
+                yy = y/100
+                get_NN(xx,yy)
+                
         # PLOT
         plt.ylabel('spirale')
         plt.axis([-2, 2, -2, 2])
         plt.grid(True)
-        # plot class
+        for (x,y,i) in classA:
+            plt.plot(x, y, 'o', markersize=1, color="lightblue")
+        for (x,y,i) in classB:
+            plt.plot(x, y, 'o', markersize=1, color="salmon")
         for (x,y,i) in clasA:
-            plt.plot(x, y, 'bo')
+            plt.plot(x, y, 'b+')
+            pass
         for (x,y,i) in clasB:
-            plt.plot(x, y, 'rd')
+            plt.plot(x, y, 'r+')
+            pass
         
 if __name__=='__main__':
     clasA = []
